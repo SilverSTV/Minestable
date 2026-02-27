@@ -2,9 +2,13 @@
 {
     public enum BlockType
     {
+        Unknown,
         Air,
         Dirt,
         Stone,
-        Gravel
+        Gravel,
+        IronOre,
+        GoldOre,
+        Coal
     }
 }

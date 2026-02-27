@@ -11,20 +11,20 @@ namespace Game.Scripts.Gameplay
     {
         private MineField _world;
 
-        [SerializeField] private List<BlockSettings> _blockSettings;
+        [SerializeField] private BlockDatabase _blockSettings;
         [SerializeField] private BlockType _fillerBlockType;
 
         private int _fillerBlockDurability;
 
         private void Start()
         {
-            _fillerBlockDurability = _blockSettings.FirstOrDefault(bs => bs._blockTypeId == _fillerBlockType)!
+            _fillerBlockDurability = _blockSettings.GetSettings(_fillerBlockType)
                 ._maxDurability;
         }
 
         private void CreateBlock(int x, int y, BlockType blockType)
         {
-            var fillerBlockSettings = _blockSettings.FirstOrDefault(bs => bs._blockTypeId == blockType);
+            var fillerBlockSettings = _blockSettings.GetSettings(blockType);
             var fillerBlock = new WorldBlock
             {
                 BlockType = blockType,
@@ -36,7 +36,7 @@ namespace Game.Scripts.Gameplay
         private void HitBlock(int x, int y, int damage)
         {
             var block = _world.GetBlock(x, y);
-            if (block != null)
+            if (block.BlockType != BlockType.Unknown)
             {
                 block.Durability -= damage;
                 if (block.Durability <= 0)

@@ -13,6 +13,7 @@ namespace Game.Scripts.Configs
         public int _maxDurability;
         public int _stabilityDamage;
         public int _dropAmountMin, _dropAmountMax;
+        public int _spawnHeightMin, _spawnHeightMax;
         public List<ItemId> _dropItems;
         public bool _isSolid;
         public bool _isAffectedByGravity;
