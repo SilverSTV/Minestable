@@ -2,7 +2,7 @@ using Game.Scripts.Configs;
 
 namespace Game.Scripts.Gameplay
 {
-    public struct WorldBlock
+    public struct CellState
     {
         private int _durability;
         private BlockType _blockType;

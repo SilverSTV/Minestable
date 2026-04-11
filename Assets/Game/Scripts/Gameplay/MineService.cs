@@ -1,34 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO.Hashing;
-using System.Linq;
-using Game.Scripts.Configs;
-using UnityEngine;
+﻿using Game.Scripts.Configs;
 
 namespace Game.Scripts.Gameplay
 {
-    public class MineService : MonoBehaviour
+    public class MineService
     {
-        private MineField _world;
+        private MineGrid _world;
+        private BlockDatabase _blockSettings;
+        private BlockType _emptyBlockType;
 
-        [SerializeField] private BlockDatabase _blockSettings;
-        [SerializeField] private BlockType _fillerBlockType;
-
-        private int _fillerBlockDurability;
-
-        private void Start()
+        public MineService(MineGrid world, BlockDatabase blockSettings, BlockType emptyBlockType)
         {
-            _fillerBlockDurability = _blockSettings.GetSettings(_fillerBlockType)
-                ._maxDurability;
+            _world = world;
+            _blockSettings = blockSettings;
+            _emptyBlockType = emptyBlockType;
         }
 
         private void CreateBlock(int x, int y, BlockType blockType)
         {
             var fillerBlockSettings = _blockSettings.GetSettings(blockType);
-            var fillerBlock = new WorldBlock
+            var fillerBlock = new CellState
             {
                 BlockType = blockType,
-                Durability = fillerBlockSettings!._maxDurability
+                Durability = fillerBlockSettings.MaxDurability
             };
             _world.SetBlock(x, y, fillerBlock);
         }
@@ -48,13 +41,14 @@ namespace Game.Scripts.Gameplay
 
         private void DestroyBlock(int x, int y)
         {
-            var fillerBlock = new WorldBlock
+            var durability = _blockSettings.GetSettings(_emptyBlockType).MaxDurability;
+            var emptyBlock = new CellState
             {
-                BlockType = _fillerBlockType,
-                Durability = _fillerBlockDurability
+                BlockType = _emptyBlockType,
+                Durability = durability
             };
 
-            _world.SetBlock(x, y, fillerBlock);
+            _world.SetBlock(x, y, emptyBlock);
         }
     }
 }

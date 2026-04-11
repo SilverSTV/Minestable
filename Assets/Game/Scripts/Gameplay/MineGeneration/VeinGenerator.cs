@@ -1,8 +1,6 @@
 ﻿using Game.Scripts.Configs;
-using Unity.Mathematics;
 using UnityEngine;
 using Random = System.Random;
-
 
 namespace Game.Scripts.Gameplay
 {
@@ -19,10 +17,10 @@ namespace Game.Scripts.Gameplay
             _database = database;
         }
 
-        public void AddVeins(MineField mine, BlockType oreType, int veinCount, int stepsMin, int stepsMax,
+        public void AddVeins(MineGrid mine, BlockType oreType, int veinCount, int stepsMin, int stepsMax,
             int thicknessMax, int minY, int maxY)
         {
-            var rng = new Random(_seed ^ (int) oreType * 10007);
+            var rng = new Random(_seed ^ (int)oreType * 10007);
 
             for (int v = 0; v < veinCount; v++)
             {
@@ -36,14 +34,14 @@ namespace Game.Scripts.Gameplay
             }
         }
 
-        private void CarveRandomWalk(MineField mine, BlockType oreType, int x, int y, int steps, int thickness,
+        private void CarveRandomWalk(MineGrid mine, BlockType oreType, int x, int y, int steps, int thickness,
             Random rng)
         {
             var oreCfg = _database.GetSettings(oreType);
 
             for (int i = 0; i < steps; i++)
             {
-                PainDisc(mine, oreType, x, y, thickness, oreCfg._maxDurability);
+                PainDisc(mine, oreType, x, y, thickness, oreCfg.MaxDurability);
 
                 int dir = rng.Next(0, 6);
                 switch (dir)
@@ -78,7 +76,7 @@ namespace Game.Scripts.Gameplay
             }
         }
 
-        private void PainDisc(MineField mine, BlockType oreType, int cx, int cy, int radius, int durability)
+        private void PainDisc(MineGrid mine, BlockType oreType, int cx, int cy, int radius, int durability)
         {
             for (int dy = -radius; dy <= radius; dy++)
             {
@@ -96,7 +94,7 @@ namespace Game.Scripts.Gameplay
                     if (existing.BlockType != _fillerBlock)
                         continue;
 
-                    var block = new WorldBlock
+                    var block = new CellState
                     {
                         BlockType = oreType,
                         Durability = durability

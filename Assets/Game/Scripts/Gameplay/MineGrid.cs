@@ -2,34 +2,34 @@ using UnityEngine;
 
 namespace Game.Scripts.Gameplay
 {
-    public class MineField
+    public class MineGrid
     {
-        private WorldBlock[,] _worldGrid;
+        private CellState[,] _worldGrid;
         private int _width, _height;
 
-        public MineField(int width, int height)
+        public MineGrid(int width, int height)
         {
             _width = width;
             _height = height;
-            _worldGrid = new WorldBlock[Width, Height];
+            _worldGrid = new CellState[Width, Height];
         }
 
         public int Height => _height;
 
         public int Width => _width;
 
-        public WorldBlock GetBlock(int x, int y)
+        public CellState GetBlock(int x, int y)
         {
             if (InBounds(x, y))
                 return _worldGrid[x, y];
             
-            return new WorldBlock
+            return new CellState
             {
                 BlockType = BlockType.Unknown
             };
         }
 
-        public void SetBlock(int x, int y, WorldBlock block)
+        public void SetBlock(int x, int y, CellState block)
         {
             if (InBounds(x, y))
                 _worldGrid[x, y] = block;

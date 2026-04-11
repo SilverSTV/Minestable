@@ -16,7 +16,7 @@ namespace Game.Scripts.Gameplay
             _database = database;
         }
 
-        public void AddCaves(MineField mine, int caveCount, int radiusXMin, int radiusXMax, int radiusYMin,
+        public void AddCaves(MineGrid mine, int caveCount, int radiusXMin, int radiusXMax, int radiusYMin,
             int radiusYMax, int yMin, int yMax)
         {
             var rng = new Random(_seed ^ 0x51C0FFEE);
@@ -33,7 +33,7 @@ namespace Game.Scripts.Gameplay
             }
         }
 
-        private void CarveEllipse(MineField mine, int cx, int cy, int rx, int ry)
+        private void CarveEllipse(MineGrid mine, int cx, int cy, int rx, int ry)
         {
             for (int y = cy - ry; y <= cy + ry; y++)
             {
@@ -51,7 +51,7 @@ namespace Game.Scripts.Gameplay
                         if (existing.BlockType != _fillerBlock)
                             continue;
 
-                        var airBlock = new WorldBlock
+                        var airBlock = new CellState
                         {
                             BlockType = BlockType.Air,
                             Durability = 0

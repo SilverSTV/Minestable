@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Game.Scripts.Gameplay;
 using UnityEngine;
 
@@ -17,7 +17,7 @@ namespace Game.Scripts.Configs
 
             foreach (var setting in _settings)
             {
-                var settingBlockTypeId = setting._blockTypeId;
+                var settingBlockTypeId = setting.BlockTypeId;
                 if (_settingsMap.ContainsKey(settingBlockTypeId))
                     Debug.LogWarning($"Settings map already has {settingBlockTypeId} block type!");
 

@@ -73,3 +73,35 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Heavy media and source art files
+*.png
+*.png.meta
+*.jpg
+*.jpg.meta
+*.jpeg
+*.jpeg.meta
+*.tga
+*.tga.meta
+*.psd
+*.psd.meta
+*.tif
+*.tif.meta
+*.tiff
+*.tiff.meta
+*.exr
+*.exr.meta
+*.mp3
+*.mp3.meta
+*.wav
+*.wav.meta
+*.ogg
+*.ogg.meta
+*.mp4
+*.mp4.meta
+*.mov
+*.mov.meta
+*.avi
+*.avi.meta
+*.mkv
+*.mkv.meta
