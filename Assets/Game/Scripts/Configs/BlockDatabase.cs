@@ -7,7 +7,7 @@ namespace Game.Scripts.Configs
     [CreateAssetMenu(fileName = "BlockDatabase", menuName = "Scriptable Objects/World/BlockDatabase")]
     public class BlockDatabase : ScriptableObject
     {
-        [SerializeField] private List<BlockSettings> _settings;
+        [field: SerializeField] public List<BlockSettings> Settings { get; private set; }
 
         private Dictionary<BlockType, BlockSettings> _settingsMap;
 
@@ -15,7 +15,7 @@ namespace Game.Scripts.Configs
         {
             _settingsMap = new Dictionary<BlockType, BlockSettings>();
 
-            foreach (var setting in _settings)
+            foreach (var setting in Settings)
             {
                 var settingBlockTypeId = setting.BlockTypeId;
                 if (_settingsMap.ContainsKey(settingBlockTypeId))

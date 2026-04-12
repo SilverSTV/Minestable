@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc99bf0864c277a4782794cba988a9cd, type: 3}
+  m_Name: BlockDatabaseTest
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Scripts.Configs.BlockDatabase
+  _settings:
+  - {fileID: 11400000, guid: 4f3420a72ae32e043860f00a0d69ecc2, type: 2}
+  - {fileID: 11400000, guid: 181951ebd259cb74f87199964c88e157, type: 2}
+  - {fileID: 11400000, guid: 43d70002858831b40815dfe1d7885196, type: 2}

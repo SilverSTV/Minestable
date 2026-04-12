@@ -1,18 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Game.Scripts.Configs;
+using Game.Scripts.Editor;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Game.Scripts.Gameplay
 {
     public class MineView : MonoBehaviour
     {
-        [SerializeField] private float _cellSize = 1f;
-        [SerializeField] private int _sortingOrder;
+        // [SerializeField] private float _cellSize = 1f;
+        // [SerializeField] private int _sortingOrder;
+        [SerializeField] private Tilemap _tilemap;
+        [SerializeField] private TileRegistry _tileRegistry;
 
-        private readonly Dictionary<Vector2Int, SpriteRenderer> _renderers = new();
         private TileSpriteProvider _tileSpriteProvider;
-        private int _renderVersion;
 
         private void Awake()
         {
@@ -24,7 +26,7 @@ namespace Game.Scripts.Gameplay
             _tileSpriteProvider?.Dispose();
         }
 
-        public async Task RenderAsync(MineGrid mineGrid, BlockDatabase blockDatabase)
+        public void RedrawAllAsync(MineGrid mineGrid, BlockDatabase blockDatabase)
         {
             if (mineGrid == null)
             {
@@ -32,14 +34,19 @@ namespace Game.Scripts.Gameplay
                 return;
             }
 
+            var bounds = new BoundsInt(0, 0, 0, mineGrid.Width, mineGrid.Height, 1);
+            var tiles = new TileBase[mineGrid.Width * mineGrid.Height];
+
             if (blockDatabase == null)
             {
                 Debug.LogError("MineView.RenderAsync requires a BlockDatabase.", this);
                 return;
             }
 
-            _tileSpriteProvider ??= new TileSpriteProvider();
-            int renderVersion = ++_renderVersion;
+            // _tileSpriteProvider ??= new TileSpriteProvider();
+            // await _tileSpriteProvider.Preload(blockDatabase.Settings);
+
+            int i = 0;
 
             for (int y = 0; y < mineGrid.Height; y++)
             {
@@ -50,91 +57,46 @@ namespace Game.Scripts.Gameplay
 
                     if (cell.BlockType == BlockType.Air || cell.BlockType == BlockType.Unknown)
                     {
-                        ClearCell(position);
+                        ClearCell(x, y);
                         continue;
                     }
 
-                    var blockSettings = blockDatabase.GetSettings(cell.BlockType);
-                    var spriteReference = blockSettings.SpriteReference;
+                    var tile = _tileRegistry.Get(cell.BlockType);
 
-                    if (spriteReference == null || !spriteReference.RuntimeKeyIsValid())
+                    if (tile == null)
                     {
                         Debug.LogWarning(
-                            $"MineView: sprite reference is not configured for block type {cell.BlockType} at {position}.",
+                            $"MineView: block tile is not configured for block type {cell.BlockType} at {position}.",
                             this);
-                        ClearCell(position);
+                        ClearCell(x,y);
                         continue;
                     }
 
-                    var sprite = await _tileSpriteProvider.GetSpriteAsync(spriteReference);
-                    if (renderVersion != _renderVersion)
-                    {
-                        return;
-                    }
-
-                    if (sprite == null)
-                    {
-                        Debug.LogWarning(
-                            $"MineView: Addressables sprite was not found for block type {cell.BlockType} at {position}.",
-                            this);
-                        ClearCell(position);
-                        continue;
-                    }
-
-                    var renderer = GetOrCreateRenderer(position);
-                    renderer.sprite = sprite;
-                    renderer.transform.localPosition = GridToLocalPosition(x, y, mineGrid);
-                    renderer.transform.localScale = GetSpriteScale(sprite);
-                    renderer.sortingOrder = _sortingOrder;
-                    renderer.enabled = true;
+                    tiles[i++] = _tileRegistry.Get(cell.BlockType);
                 }
             }
+            
+            _tilemap.SetTilesBlock(bounds,tiles);
         }
 
-        private SpriteRenderer GetOrCreateRenderer(Vector2Int position)
+        private void UpdateCell(int x, int y, CellState cell)
         {
-            if (_renderers.TryGetValue(position, out var renderer) && renderer != null)
+            var pos = new Vector3Int(x, y, 0);
+
+            if (cell.BlockType == BlockType.Air || cell.BlockType == BlockType.Unknown)
             {
-                return renderer;
-            }
-
-            var cellObject = new GameObject($"Cell_{position.x}_{position.y}");
-            cellObject.transform.SetParent(transform, false);
-
-            renderer = cellObject.AddComponent<SpriteRenderer>();
-            renderer.sortingOrder = _sortingOrder;
-
-            _renderers[position] = renderer;
-            return renderer;
-        }
-
-        private void ClearCell(Vector2Int position)
-        {
-            if (!_renderers.TryGetValue(position, out var renderer) || renderer == null)
-            {
+                _tilemap.SetTile(pos, null);
                 return;
             }
 
-            Destroy(renderer.gameObject);
-            _renderers.Remove(position);
+            var tile = _tileRegistry.Get(cell.BlockType);
+            _tilemap.SetTile(pos, tile);
         }
 
-        private Vector3 GridToLocalPosition(int x, int y, MineGrid mineGrid)
+        private void ClearCell(int x, int y)
         {
-            float centeredX = (x - (mineGrid.Width - 1) * 0.5f) * _cellSize;
-            float centeredY = (y - (mineGrid.Height - 1) * 0.5f) * _cellSize;
-            return new Vector3(centeredX, centeredY, 0f);
-        }
-
-        private Vector3 GetSpriteScale(Sprite sprite)
-        {
-            var size = sprite.bounds.size;
-            if (size.x <= 0f || size.y <= 0f)
-            {
-                return Vector3.one;
-            }
-
-            return new Vector3(_cellSize / size.x, _cellSize / size.y, 1f);
+            var cell = new CellState {BlockType = BlockType.Air};
+            UpdateCell(x,y,cell);
         }
     }
 }

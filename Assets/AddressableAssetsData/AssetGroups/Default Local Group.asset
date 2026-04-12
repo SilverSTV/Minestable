@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Default Local Group
+  m_GUID: 6ac17c0be296a2d4e81d4383d23ffa4d
+  m_SerializeEntries:
+  - m_GUID: 1ee760962125b294fb5d8e726b6d2d93
+    m_Address: Assets/Game/Art/tile_stone.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bd12a83c694d0364095b319fa1939d19
+    m_Address: Assets/Game/Art/tile_ore_stone_browniron.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ff8042ee85587484d8f8bbc8ce34715e
+    m_Address: Assets/Game/Art/tile_ore_stone_coal.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: e95f6d10edf88d144a50d677a0bfcb9d, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 1a54b7f6b55dcdf4087e468b4e5a5404, type: 2}
+    - {fileID: 11400000, guid: 2d80137abbdca3340b5d7b62e8af6f34, type: 2}

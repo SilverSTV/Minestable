@@ -1,4 +1,4 @@
-﻿%YAML 1.1
+%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!29 &1
 OcclusionCullingSettings:
@@ -369,9 +369,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fdc539b0c3ac614194a47faf847d88d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _blockDatabase: {fileID: 11400000, guid: fc99bf0864c277a4782794cba988a9cd, type: 2}
+  _blockDatabase: {fileID: 11400000, guid: 6c2fc9cd8875c584fa54d1a127e87a90, type: 2}
   _mineView: {fileID: 700000001}
-  _seed: 12345
+  _seed: 123456
 --- !u!4 &656003591
 Transform:
   m_ObjectHideFlags: 0
@@ -441,4 +441,3 @@ SceneRoots:
   - {fileID: 619394802}
   - {fileID: 656003591}
   - {fileID: 700000002}
-

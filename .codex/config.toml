@@ -1,0 +1,18 @@
+model = "gpt-5.4"
+approval_policy = "on-request"
+
+# Для репозитория на Windows обычно безопаснее сначала оставить стандартные ограничения
+# и не включать избыточно опасные режимы без причины.
+project_root_markers = [".git"]
+
+# Увеличиваем допустимый размер проектных инструкций, если AGENTS.md станет большим.
+project_doc_max_bytes = 65536
+
+# При желании можно добавить альтернативные имена файлов инструкций.
+project_doc_fallback_filenames = ["TEAM_GUIDE.md", ".agents.md"]
+
+[features]
+codex_hooks = false
+
+[windows]
+sandbox = "unelevated"
