@@ -16,16 +16,18 @@ MonoBehaviour:
   <ConfigId>k__BackingField: 1
   <SpriteReference>k__BackingField:
     m_AssetGUID: ff8042ee85587484d8f8bbc8ce34715e
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: stone_coal_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_SubObjectGUID: 
     m_EditorAssetChanged: 1
   <MaxDurability>k__BackingField: 10
   <StabilityDamage>k__BackingField: 5
-  <DropAmountMin>k__BackingField: 1
-  <DropAmountMax>k__BackingField: 3
   <SpawnHeightMin>k__BackingField: 2
   <SpawnHeightMax>k__BackingField: 50
-  <DropItems>k__BackingField: 00000000
+  <DropResources>k__BackingField:
+  - ResourceType: 0
+    MinAmount: 1
+    MaxAmount: 5
   <IsSolid>k__BackingField: 1
   <IsAffectedByGravity>k__BackingField: 0

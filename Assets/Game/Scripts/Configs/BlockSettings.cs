@@ -24,12 +24,6 @@ namespace Game.Scripts.Configs
         [field: SerializeField, FormerlySerializedAs("_stabilityDamage")]
         public int StabilityDamage { get; private set; }
 
-        [field: SerializeField, FormerlySerializedAs("_dropAmountMin")]
-        public int DropAmountMin { get; private set; }
-
-        [field: SerializeField, FormerlySerializedAs("_dropAmountMax")]
-        public int DropAmountMax { get; private set; }
-
         [field: SerializeField, FormerlySerializedAs("_spawnHeightMin")]
         public int SpawnHeightMin { get; private set; }
 
@@ -37,7 +31,7 @@ namespace Game.Scripts.Configs
         public int SpawnHeightMax { get; private set; }
 
         [field: SerializeField, FormerlySerializedAs("_dropItems")]
-        public List<ItemId> DropItems { get; private set; }
+        public List<BlockDrop> DropResources { get; private set; }
 
         [field: SerializeField, FormerlySerializedAs("_isSolid")]
         public bool IsSolid { get; private set; }

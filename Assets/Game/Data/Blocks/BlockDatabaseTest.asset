@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc99bf0864c277a4782794cba988a9cd, type: 3}
   m_Name: BlockDatabaseTest
   m_EditorClassIdentifier: Assembly-CSharp::Game.Scripts.Configs.BlockDatabase
-  _settings:
+  <Settings>k__BackingField:
   - {fileID: 11400000, guid: 4f3420a72ae32e043860f00a0d69ecc2, type: 2}
-  - {fileID: 11400000, guid: 181951ebd259cb74f87199964c88e157, type: 2}
   - {fileID: 11400000, guid: 43d70002858831b40815dfe1d7885196, type: 2}
+  - {fileID: 11400000, guid: 181951ebd259cb74f87199964c88e157, type: 2}
+  - {fileID: 11400000, guid: 2f680f52c9eb18a4ebb8e6d78c65c66c, type: 2}

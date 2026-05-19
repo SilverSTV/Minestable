@@ -23,10 +23,11 @@ MonoBehaviour:
     m_EditorAssetChanged: 1
   <MaxDurability>k__BackingField: 20
   <StabilityDamage>k__BackingField: 10
-  <DropAmountMin>k__BackingField: 1
-  <DropAmountMax>k__BackingField: 3
   <SpawnHeightMin>k__BackingField: 5
   <SpawnHeightMax>k__BackingField: 100
-  <DropItems>k__BackingField: 01000000
+  <DropResources>k__BackingField:
+  - ResourceType: 1
+    MinAmount: 2
+    MaxAmount: 10
   <IsSolid>k__BackingField: 1
   <IsAffectedByGravity>k__BackingField: 0

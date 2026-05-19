@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca1935625a34eb195bcea19ff617b0b, type: 3}
   m_Name: OreStoneBrowniron
   m_EditorClassIdentifier: Assembly-CSharp::Game.Scripts.Editor.BlockTile
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 8504367182612751133, guid: bd12a83c694d0364095b319fa1939d19, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
@@ -34,4 +34,4 @@ MonoBehaviour:
   m_InstancedGameObject: {fileID: 0}
   m_Flags: 1
   m_ColliderType: 1
-  BlockType: 0
+  BlockType: 5

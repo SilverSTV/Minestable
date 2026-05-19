@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a63620e9673842b6881ef46935079f03, type: 3}
+  m_Name: Game Resource Database
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Scripts.Configs.ResourceDatabase
+  _resources:
+  - ResourceType: 0
+    DisplayName: Coal
+    Icon: {fileID: -2060112510601662013, guid: c1423c2af5cc4fd41bce5dc82b8037be, type: 3}
+  - ResourceType: 1
+    DisplayName: IronOre
+    Icon: {fileID: 8824806939975090186, guid: 46c3ef5ce1b54b847aadb1c91e80ef1f, type: 3}
