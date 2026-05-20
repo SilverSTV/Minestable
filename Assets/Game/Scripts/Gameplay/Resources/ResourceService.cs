@@ -70,22 +70,35 @@ namespace Game.Scripts.Gameplay.PlayerResources
             if (costs is null)
                 throw new ArgumentNullException(nameof(costs));
 
-            if (!CanAfford(costs))
-                return false;
+            var totals = new Dictionary<ResourceType, int>();
 
             foreach (var cost in costs)
             {
-                if (!TrySpend(cost.ResourceType, cost.Amount))
-                    throw new InvalidOperationException("Resource spending failed after CanAfford check.");
+                if (cost.Amount <= 0)
+                    throw new ArgumentException(nameof(costs));
+
+                totals.TryGetValue(cost.ResourceType, out var current);
+                totals[cost.ResourceType] = current + cost.Amount;
             }
 
-            foreach (var cost in costs)
+            foreach (var total in totals)
             {
-                int newAmount = GetAmount(cost.ResourceType);
-                ResourceChanged?.Invoke(cost.ResourceType,newAmount);
+                if (!_storage.Has(total.Key, total.Value))
+                    return false;
             }
+
+            foreach (var total in totals)
+            {
+                if (!_storage.TrySpend(total.Key, total.Value))
+                    throw new InvalidOperationException("Resource spending failed after affordability check.");
+            }
+
+            foreach (var total in totals)
+            {
+                ResourceChanged?.Invoke(total.Key, _storage.GetAmount(total.Key));
+            }
+
             ResourcesChanged?.Invoke();
-
             return true;
         }
     }

@@ -1,9 +1,7 @@
 ﻿using System;
 using Game.Scripts.Gameplay.PlayerResources;
 using TMPro;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 namespace Game.Scripts.Gameplay.View.UI

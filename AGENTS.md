@@ -134,11 +134,9 @@ Core systems:
 - CaveGenerator: generates empty spaces
 - VeinGenerator: generates ore veins
 - CollapseSystem: handles cave-ins and support checks
-- MiningController: applies player mining actions
-- InventoryService: stores collected resources
+- MineService: applies player mining actions
 - MineView: renders grid cells to scene objects / tilemaps
 - GameManager: connects scene objects to runtime services
-- ItemId: 
 
 Rules:
 - Keep gameplay rules in plain C# services when possible
@@ -195,3 +193,18 @@ If a conversion is needed between block and drop, use an explicit mapping layer 
 - loot table
 - drop config
 - ScriptableObject data
+
+## Review context
+
+When reviewing recent changes, treat entries in `Current project decisions` as source-of-truth project intent unless the code clearly contradicts them at runtime.
+Do not flag these decisions as architecture issues during MVP review.
+Focus review findings on compile errors, runtime errors, behavioral regressions, missing serialized references, Unity build risks, and data loss/churn risks.
+
+## Current project decisions
+
+- Input System callbacks may be used as a low-level state collector independently of the currently selected gameplay input service.
+- `PlayerInputAdapter` is responsible only for collecting raw input state.
+- `IInputService` implementations decide how to interpret that state for the current mode.
+- Switching between debug/gameplay input modes currently does not require switching Unity Input System action maps.
+- Resource spending must be atomic: batch spending should validate the full aggregated cost before mutating storage.
+- Resource change notifications should be emitted once per changed resource, plus one aggregate `ResourcesChanged` event.
