@@ -76,7 +76,7 @@ namespace Game.Scripts.Root
             _mineGrid = new MineGrid(200, 100);
 
             _mineGenerator = new MineGenerator(_blockDatabase);
-            _mineGenerator.GenerateMine(_mineGrid, _seed, BlockType.Stone);
+            _mineGenerator.GenerateMine(_mineGrid, _seed, BlockType.Stone, BlockType.Dirt);
 
             var resourceStorage = new ResourceStorage();
             var resourceService = new ResourceService(resourceStorage);

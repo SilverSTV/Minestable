@@ -16,7 +16,7 @@ namespace Game.Scripts.Configs
         public string ConfigId { get; private set; }
 
         [field: SerializeField, FormerlySerializedAs("_spriteKey")]
-        public AssetReferenceSprite SpriteReference { get; private set; }
+        public Sprite Sprite { get; private set; }
 
         [field: SerializeField, FormerlySerializedAs("_maxDurability")]
         public int MaxDurability { get; private set; }

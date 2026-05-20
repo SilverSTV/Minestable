@@ -11,16 +11,12 @@ namespace Game.Scripts.Gameplay
             _database = db;
         }
 
-        public MineGrid GenerateMine(MineGrid mine, int seed, BlockType fillerBlockType)
+        public MineGrid GenerateMine(MineGrid mine, int seed, BlockType fillerBlockType, BlockType surfaceBlockType)
         {
-            var fillerBlockSettings = _database.GetSettings(fillerBlockType);
-            var fillerBlock = new CellState
-            {
-                BlockType = fillerBlockType,
-                Durability = fillerBlockSettings.MaxDurability
-            };
-
-            FillMine(mine, fillerBlock);
+            CreateSurface(mine, surfaceBlockType);
+            
+            
+            FillMine(mine, fillerBlockType);
 
             CreateVeins(mine, seed, fillerBlockType);
             CreateCaves(mine, seed, fillerBlockType);
@@ -46,9 +42,31 @@ namespace Game.Scripts.Gameplay
                 ironSettings.SpawnHeightMax);
         }
 
-        private void FillMine(MineGrid mine, CellState fillerBlock)
+        private void CreateSurface(MineGrid mine, BlockType surfaceBlockType)
         {
-            for (int y = 0; y < mine.Height; y++)
+            
+            var surfaceBlockSettings = _database.GetSettings(surfaceBlockType);
+            var surfaceBlock = new CellState
+            {
+                BlockType = surfaceBlockType,
+                Durability = surfaceBlockSettings.MaxDurability
+            };
+            for (int x = 0; x < mine.Width; x++)
+            {
+                mine.SetBlock(x, 0, surfaceBlock);
+            }
+        }
+        
+        private void FillMine(MineGrid mine, BlockType fillerBlockType)
+        {
+            var fillerBlockSettings = _database.GetSettings(fillerBlockType);
+            var fillerBlock = new CellState
+            {
+                BlockType = fillerBlockType,
+                Durability = fillerBlockSettings.MaxDurability
+            };
+            
+            for (int y = 1; y < mine.Height; y++)
             {
                 for (int x = 0; x < mine.Width; x++)
                 {
