@@ -9,6 +9,7 @@ using Game.Scripts.Gameplay.View.UI;
 using Game.Scripts.Root.Input;
 using Game.Scripts.Root.UpdateSystem;
 using Game.Scripts.View;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Game.Scripts.Root
@@ -25,12 +26,12 @@ namespace Game.Scripts.Root
 
         [SerializeField] private MineView _mineView;
         [SerializeField] private int _seed;
+        
 
         //Input
         private DebugInputService _debugInput;
         private MainGameplayInputService _mainGameplayInput;
         private InputServiceSwitcher _inputServiceSwitcher;
-        private List<IMineCommand> _commands = new();
         [Header("Input")] [SerializeField] private PlayerInputAdapter _inputAdapter;
         [SerializeField] private CameraMoveController _cameraMover;
 
@@ -39,13 +40,19 @@ namespace Game.Scripts.Root
         [Header("Debug")] [SerializeField] private int _debugBlockDamage;
 
         [Header("Characters")] [SerializeField]
+        private GameObject _playerPrefab;
+
+        [SerializeField] private Transform _playerSpawnPoint;
+        [SerializeField] private Transform _playerParentObj;
         private PlayerController _playerController;
+
 
         private void Awake()
         {
             if (!TryMineInit()) return;
 
             InputInit();
+            PlayerInit();
         }
 
         private void Update()
@@ -93,7 +100,7 @@ namespace Game.Scripts.Root
             {
                 _inputAdapter = FindAnyObjectByType<PlayerInputAdapter>();
             }
-            
+
             _inputAdapter.Initialize(Camera.main);
             _inputServiceSwitcher = new InputServiceSwitcher();
             _debugInput = new DebugInputService(_inputAdapter);
@@ -101,11 +108,17 @@ namespace Game.Scripts.Root
             _inputServiceSwitcher.SwitchTo(_debugInput);
         }
 
+        private void PlayerInit()
+        {
+            var player = Instantiate(_playerPrefab, _playerSpawnPoint.position, quaternion.identity, _playerParentObj);
+            _playerController = player.GetComponent<PlayerController>();
+            _cameraMover.BindPlayer(player.transform);
+        }
+
         private void InputHandle()
         {
             _inputServiceSwitcher.Current?.Tick(Time.deltaTime);
 
-            _commands.Clear();
 
             _mineView.ApplyChanges(_mineInteractionService.Changes);
             _mineInteractionService.ClearChanges();
@@ -113,17 +126,18 @@ namespace Game.Scripts.Root
 
         private void DebugModeExecute()
         {
-            if(_inputServiceSwitcher?.Current is not DebugInputService service)
+            if (_inputServiceSwitcher?.Current is not DebugInputService service)
                 return;
 
             var commands = service.Commands;
-            if (commands.PointerClick)
+            if (commands.PointerClick.TryConsume())
             {
                 int x = Mathf.FloorToInt(commands.PointerWorldPosition.x);
                 int y = Mathf.FloorToInt(commands.PointerWorldPosition.y);
-                
-                _mineInteractionService.TryDamageBlock(x,y,_debugBlockDamage);
+
+                _mineInteractionService.TryDamageBlock(x, -y, _debugBlockDamage);
             }
+
             _cameraMover.Move(commands.Move);
 
             if (commands.ToggleModePressed.TryConsume())
@@ -135,14 +149,14 @@ namespace Game.Scripts.Root
 
         private void MainGameplayModeExecute()
         {
-            if(_inputServiceSwitcher?.Current is not MainGameplayInputService inputService)
+            if (_inputServiceSwitcher?.Current is not MainGameplayInputService inputService)
                 return;
 
-            var commands = inputService .Commands;
+            var commands = inputService.Commands;
 
             _playerController.Execute(commands);
 
-            if(commands.ToggleModePressed.TryConsume())
+            if (commands.ToggleModePressed.TryConsume())
             {
                 _cameraMover.enabled = true;
                 _inputServiceSwitcher.SwitchTo(_debugInput);

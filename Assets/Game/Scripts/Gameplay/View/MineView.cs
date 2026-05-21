@@ -40,15 +40,16 @@ namespace Game.Scripts.View
                 return;
             }
 
-            var bounds = new BoundsInt(0, 0, 0, mineGrid.Width, mineGrid.Height, 1);
+            var bounds = new BoundsInt(0, -mineGrid.Height +1, 0, mineGrid.Width, mineGrid.Height, 1);
             var tiles = new TileBase[mineGrid.Width * mineGrid.Height];
             var i = 0;
 
-            for (var y = 0; y < mineGrid.Height; y++)
+            for (var worldY = bounds.yMin; worldY < bounds.yMax; worldY++)
             {
+                var y = WorldYToGridY(worldY);
+                
                 for (var x = 0; x < mineGrid.Width; x++)
                 {
-                    var position = new Vector2Int(x, y);
                     var cell = mineGrid.GetBlock(x, y);
 
                     if (cell.BlockType == BlockType.Air || cell.BlockType == BlockType.Unknown)
@@ -61,7 +62,7 @@ namespace Game.Scripts.View
                     if (tile == null)
                     {
                         Debug.LogWarning(
-                            $"MineView: block tile is not configured for block type {cell.BlockType} at {position}.",
+                            $"MineView: block tile is not configured for block type {cell.BlockType} at X:{x} & Y:{y}.",
                             this);
                         tiles[i++] = null;
                         continue;
@@ -74,13 +75,14 @@ namespace Game.Scripts.View
             _tilemap.SetTilesBlock(bounds, tiles);
         }
 
-        public void UpdateCell(int x, int y, CellState cell)
+        public void UpdateCell(int x, int gridY, CellState cell)
         {
             if (!TryResolveReferences())
             {
                 return;
             }
 
+            var y = WorldYToGridY(gridY);
             var pos = new Vector3Int(x, y, 0);
 
             if (cell.BlockType == BlockType.Air || cell.BlockType == BlockType.Unknown)
@@ -97,7 +99,8 @@ namespace Game.Scripts.View
         {
             foreach (var change in changes)
             {
-                var pos = new Vector3Int(change.x, change.y, 0);
+                var worldY = WorldYToGridY(change.y);
+                var pos = new Vector3Int(change.x, worldY, 0);
 
                 if (change.state.BlockType == BlockType.Air)
                 {
@@ -131,6 +134,11 @@ namespace Game.Scripts.View
             }
 
             return true;
+        }
+        
+        private int WorldYToGridY(int worldY)
+        {
+            return -worldY;
         }
     }
 }
