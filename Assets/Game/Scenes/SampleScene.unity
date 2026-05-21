@@ -1018,6 +1018,8 @@ MonoBehaviour:
   _blockDatabase: {fileID: 11400000, guid: 6c2fc9cd8875c584fa54d1a127e87a90, type: 2}
   _mineView: {fileID: 700000001}
   _seed: 123456
+  _caveGenerationSettings: {fileID: 11400000, guid: 83d4cf505ada35a48b43dde7cc65aca3, type: 2}
+  _veinSettingsDatabase: {fileID: 11400000, guid: 78e15203c2f75c24295f592baa89786b, type: 2}
   _inputAdapter: {fileID: 82790986}
   _cameraMover: {fileID: 519420033}
   _resourcePanelView: {fileID: 1211878476}

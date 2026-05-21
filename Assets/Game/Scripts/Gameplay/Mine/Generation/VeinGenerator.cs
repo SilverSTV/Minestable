@@ -17,20 +17,19 @@ namespace Game.Scripts.Gameplay
             _database = database;
         }
 
-        public void AddVeins(MineGrid mine, BlockType oreType, int veinCount, int stepsMin, int stepsMax,
-            int thicknessMax, int minY, int maxY)
+        public void AddVeins(MineGrid mine, VeinGenerationSettings vgs)
         {
-            var rng = new Random(_seed ^ (int)oreType * 10007);
+            var rng = new Random(_seed ^ (int)vgs.Id * 10007);
 
-            for (int v = 0; v < veinCount; v++)
+            for (int v = 0; v < vgs.VeinCount; v++)
             {
                 int x = rng.Next(0, mine.Width);
-                int y = rng.Next(minY, maxY);
+                int y = rng.Next(vgs.MinY, vgs.MaxY);
 
-                int steps = rng.Next(stepsMin, stepsMax + 1);
-                int thickness = rng.Next(1, thicknessMax + 1);
+                int steps = rng.Next(vgs.StepsMin, vgs.StepsMax + 1);
+                int thickness = rng.Next(1, vgs.ThicknessMax + 1);
 
-                CarveRandomWalk(mine, oreType, x, y, steps, thickness, rng);
+                CarveRandomWalk(mine, vgs.Id, x, y, steps, thickness, rng);
             }
         }
 

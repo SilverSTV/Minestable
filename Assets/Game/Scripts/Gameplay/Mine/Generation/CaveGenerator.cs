@@ -16,18 +16,17 @@ namespace Game.Scripts.Gameplay
             _database = database;
         }
 
-        public void AddCaves(MineGrid mine, int caveCount, int radiusXMin, int radiusXMax, int radiusYMin,
-            int radiusYMax, int yMin, int yMax)
+        public void AddCaves(MineGrid mine, CaveGenerationSettings cgs)
         {
             var rng = new Random(_seed ^ 0x51C0FFEE);
 
-            for (int i = 0; i < caveCount; i++)
+            for (int i = 0; i < cgs.CaveCount; i++)
             {
                 var cx = rng.Next(0, mine.Width);
-                var cy = rng.Next(yMin, yMax);
+                var cy = rng.Next(cgs.YMin,cgs.YMax);
 
-                var rx = rng.Next(radiusXMin, radiusXMax + 1);
-                var ry = rng.Next(radiusYMin, radiusYMax + 1);
+                var rx = rng.Next(cgs.RadiusXMin, cgs.RadiusXMax + 1);
+                var ry = rng.Next(cgs.RadiusYMin, cgs.RadiusYMax + 1);
 
                 CarveEllipse(mine, cx, cy, rx, ry);
             }

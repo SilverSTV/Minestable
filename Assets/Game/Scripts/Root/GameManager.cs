@@ -26,6 +26,9 @@ namespace Game.Scripts.Root
 
         [SerializeField] private MineView _mineView;
         [SerializeField] private int _seed;
+        [SerializeField] private CaveGenerationSettings _caveGenerationSettings;
+        [SerializeField] private VeinSettingsDatabase _veinSettingsDatabase;
+        
         
 
         //Input
@@ -82,7 +85,7 @@ namespace Game.Scripts.Root
 
             _mineGrid = new MineGrid(200, 100);
 
-            _mineGenerator = new MineGenerator(_blockDatabase);
+            _mineGenerator = new MineGenerator(_blockDatabase, _caveGenerationSettings,_veinSettingsDatabase);
             _mineGenerator.GenerateMine(_mineGrid, _seed, BlockType.Stone, BlockType.Dirt);
 
             var resourceStorage = new ResourceStorage();

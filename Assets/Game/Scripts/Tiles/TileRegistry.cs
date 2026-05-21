@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Game.Scripts.Editor
 {
-    [CreateAssetMenu(menuName = "Scriptable Objects/Tiles")]
+    [CreateAssetMenu(menuName = "Scriptable Objects/TileRegistry")]
     public class TileRegistry : ScriptableObject
     {
         [Serializable]
