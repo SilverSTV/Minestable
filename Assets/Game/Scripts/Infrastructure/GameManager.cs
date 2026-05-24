@@ -6,6 +6,7 @@ using Game.Scripts.Gameplay;
 using Game.Scripts.Gameplay.Characters.Player;
 using Game.Scripts.Gameplay.PlayerResources;
 using Game.Scripts.Gameplay.View.UI;
+using Game.Scripts.Infrastructure;
 using Game.Scripts.Root.Input;
 using Game.Scripts.Root.UpdateSystem;
 using Game.Scripts.View;
@@ -40,14 +41,16 @@ namespace Game.Scripts.Root
 
         [Header("UI")] [SerializeField] private ResourcePanelView _resourcePanelView;
 
-        [Header("Debug")] [SerializeField] private int _debugBlockDamage;
+        [Header("Debug")] [SerializeField] private int _debugBlockDamage = 10;
 
-        [Header("Characters")] [SerializeField]
-        private GameObject _playerPrefab;
-
+        [Header("Characters")]
+        [SerializeField] private GameObject _playerPrefab;
         [SerializeField] private Transform _playerSpawnPoint;
         [SerializeField] private Transform _playerParentObj;
+        [SerializeField] private int _playerBlockDamage = 20;
+        [SerializeField] private float _interactionRadius;
         private PlayerController _playerController;
+        private PlayerMineInteractionService _playerMineInteractionService;
 
 
         private void Awake()
@@ -115,6 +118,8 @@ namespace Game.Scripts.Root
         {
             var player = Instantiate(_playerPrefab, _playerSpawnPoint.position, quaternion.identity, _playerParentObj);
             _playerController = player.GetComponent<PlayerController>();
+            _playerMineInteractionService =
+                new PlayerMineInteractionService(_mineInteractionService, _playerController,_interactionRadius);
             _cameraMover.BindPlayer(player.transform);
         }
 
@@ -158,6 +163,11 @@ namespace Game.Scripts.Root
             var commands = inputService.Commands;
 
             _playerController.Execute(commands);
+
+            if (commands.PointerClick.TryConsume())
+            {
+                _playerMineInteractionService.TryUsePrimaryAction(commands.PointerWorldPosition, _playerBlockDamage);
+            }
 
             if (commands.ToggleModePressed.TryConsume())
             {

@@ -1,5 +1,6 @@
 ﻿using System;
 using Game.Scripts.Gameplay.PlayerResources;
+using Game.Scripts.Gameplay.Resources;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
