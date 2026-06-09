@@ -1,4 +1,5 @@
 ﻿using Game.Scripts.Gameplay;
+using Game.Scripts.Gameplay.Mine.Core;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Game.Scripts.Gameplay.Characters.Player;
-using Game.Scripts.Root.UpdateSystem;
+﻿using Game.Scripts.Gameplay.Characters.Player;
 using UnityEngine;
 
 namespace Game.Scripts.Root.Input

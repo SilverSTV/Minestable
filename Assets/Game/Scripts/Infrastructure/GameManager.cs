@@ -4,12 +4,13 @@ using System.Linq;
 using Game.Scripts.Configs;
 using Game.Scripts.Gameplay;
 using Game.Scripts.Gameplay.Characters.Player;
+using Game.Scripts.Gameplay.Mine.Core;
 using Game.Scripts.Gameplay.PlayerResources;
+using Game.Scripts.Gameplay.View;
 using Game.Scripts.Gameplay.View.UI;
 using Game.Scripts.Infrastructure;
 using Game.Scripts.Root.Input;
 using Game.Scripts.Root.UpdateSystem;
-using Game.Scripts.View;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -29,8 +30,6 @@ namespace Game.Scripts.Root
         [SerializeField] private int _seed;
         [SerializeField] private CaveGenerationSettings _caveGenerationSettings;
         [SerializeField] private VeinSettingsDatabase _veinSettingsDatabase;
-        
-        
 
         //Input
         private DebugInputService _debugInput;
@@ -39,19 +38,24 @@ namespace Game.Scripts.Root
         [Header("Input")] [SerializeField] private PlayerInputAdapter _inputAdapter;
         [SerializeField] private CameraMoveController _cameraMover;
 
+        //UI
         [Header("UI")] [SerializeField] private ResourcePanelView _resourcePanelView;
 
-        [Header("Debug")] [SerializeField] private int _debugBlockDamage = 10;
-
-        [Header("Characters")]
+        //Characters
+        [Header("Characters")] private PlayerController _playerController;
+        private PlayerMineInteractionService _playerMineInteractionService;
         [SerializeField] private GameObject _playerPrefab;
         [SerializeField] private Transform _playerSpawnPoint;
         [SerializeField] private Transform _playerParentObj;
         [SerializeField] private int _playerBlockDamage = 20;
         [SerializeField] private float _interactionRadius;
-        private PlayerController _playerController;
-        private PlayerMineInteractionService _playerMineInteractionService;
 
+        //VFX
+        [Header("VFX")] private BlockParticleColorCache _colorCache;
+        [SerializeField] private BlockImpactVfx _blockImpactVfx;
+
+        //Debug
+        [Header("Debug")] [SerializeField] private int _debugBlockDamage = 10;
 
         private void Awake()
         {
@@ -59,11 +63,13 @@ namespace Game.Scripts.Root
 
             InputInit();
             PlayerInit();
+            VfxInit();
         }
 
         private void Update()
         {
             InputHandle();
+            ViewUpdateHandle();
         }
 
         private void FixedUpdate()
@@ -88,7 +94,7 @@ namespace Game.Scripts.Root
 
             _mineGrid = new MineGrid(200, 100);
 
-            _mineGenerator = new MineGenerator(_blockDatabase, _caveGenerationSettings,_veinSettingsDatabase);
+            _mineGenerator = new MineGenerator(_blockDatabase, _caveGenerationSettings, _veinSettingsDatabase);
             _mineGenerator.GenerateMine(_mineGrid, _seed, BlockType.Stone, BlockType.Dirt);
 
             var resourceStorage = new ResourceStorage();
@@ -119,16 +125,32 @@ namespace Game.Scripts.Root
             var player = Instantiate(_playerPrefab, _playerSpawnPoint.position, quaternion.identity, _playerParentObj);
             _playerController = player.GetComponent<PlayerController>();
             _playerMineInteractionService =
-                new PlayerMineInteractionService(_mineInteractionService, _playerController,_interactionRadius);
+                new PlayerMineInteractionService(_mineInteractionService, _playerController, _interactionRadius);
             _cameraMover.BindPlayer(player.transform);
         }
 
         private void InputHandle()
         {
             _inputServiceSwitcher.Current?.Tick(Time.deltaTime);
+        }
 
+        private void VfxInit()
+        {
+            _colorCache = new BlockParticleColorCache(_blockDatabase);
+            if(_blockImpactVfx != null)
+            {
+                _blockImpactVfx.Initialize(_colorCache);
+            }
+            else
+            {
+                Debug.LogError("GameManager requires a BlockImpactVfx reference.", this);
+            }
+        }
 
-            _mineView.ApplyChanges(_mineInteractionService.Changes);
+        private void ViewUpdateHandle()
+        {
+            _mineView.ApplyChanges(_mineInteractionService.VisualUpdates);
+            _blockImpactVfx.HandleMineChanges(_mineInteractionService.VisualUpdates);
             _mineInteractionService.ClearChanges();
         }
 

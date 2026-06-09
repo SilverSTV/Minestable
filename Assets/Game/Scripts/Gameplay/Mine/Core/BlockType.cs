@@ -1,4 +1,4 @@
-﻿namespace Game.Scripts.Gameplay
+﻿namespace Game.Scripts.Gameplay.Mine.Core
 {
     public enum BlockType
     {

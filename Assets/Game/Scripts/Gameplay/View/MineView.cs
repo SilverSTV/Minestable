@@ -1,16 +1,19 @@
 using System.Collections.Generic;
 using Game.Scripts.Configs;
 using Game.Scripts.Editor;
-using Game.Scripts.Gameplay;
+using Game.Scripts.Gameplay.Mine.Core;
+using Game.Scripts.Gameplay.Mine.State;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Game.Scripts.View
+namespace Game.Scripts.Gameplay.View
 {
     public class MineView : MonoBehaviour
     {
         [SerializeField] private Tilemap _tilemap;
+        [SerializeField] private Tilemap _damageTilemap;
         [SerializeField] private TileRegistry _tileRegistry;
+        
 
         public Tilemap Tilemap
         {
@@ -88,6 +91,7 @@ namespace Game.Scripts.View
             if (cell.BlockType == BlockType.Air || cell.BlockType == BlockType.Unknown)
             {
                 _tilemap.SetTile(pos, null);
+                _damageTilemap.SetTile(pos,null);
                 return;
             }
 
@@ -95,21 +99,23 @@ namespace Game.Scripts.View
             _tilemap.SetTile(pos, tile);
         }
         
-        public void ApplyChanges(List<CellChange> changes)
+        public void ApplyChanges(List<MineCellVisualUpdate> changes)
         {
             foreach (var change in changes)
             {
-                var worldY = WorldYToGridY(change.y);
-                var pos = new Vector3Int(change.x, worldY, 0);
+                var worldY = WorldYToGridY(change.Y);
+                var pos = new Vector3Int(change.X, worldY, 0);
 
-                if (change.state.BlockType == BlockType.Air)
+                if (change.CurrentBlockType == BlockType.Air)
                 {
                     _tilemap.SetTile(pos, null);
+                    _damageTilemap.SetTile(pos,null);
                 }
                 else
                 {
-                    var tile = _tileRegistry.Get(change.state.BlockType);
+                    var tile = _tileRegistry.Get(change.CurrentBlockType);
                     _tilemap.SetTile(pos, tile);
+                    ApplyDamageToTilemap(pos,change.DamageState);
                 }
             }
         }
@@ -139,6 +145,12 @@ namespace Game.Scripts.View
         private int WorldYToGridY(int worldY)
         {
             return -worldY;
+        }
+
+        private void ApplyDamageToTilemap(Vector3Int pos, BlockDamageStage blockDamageStage)
+        {
+            var tile = _tileRegistry.GetDamageTile(blockDamageStage);
+                _damageTilemap.SetTile(pos, tile);
         }
     }
 }
