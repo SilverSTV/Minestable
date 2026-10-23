@@ -8,7 +8,7 @@ namespace Game.Scripts.Gameplay.Characters.Player
     {
         public Vector2 Move;
         public ConsumableBool JumpPressed = new();
-        public bool PointerClick;
+        public ConsumableBool PointerClick = new();
         public Vector2 PointerWorldPosition;
         public ConsumableBool ToggleModePressed = new();
     }

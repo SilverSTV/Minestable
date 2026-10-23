@@ -1,4 +1,5 @@
 using Game.Scripts.Configs;
+using Game.Scripts.Gameplay.Mine.Core;
 
 namespace Game.Scripts.Gameplay
 {

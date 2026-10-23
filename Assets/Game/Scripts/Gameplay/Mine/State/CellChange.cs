@@ -1,15 +1,15 @@
-﻿namespace Game.Scripts.Gameplay
+﻿namespace Game.Scripts.Gameplay.Mine.State
 {
     public struct CellChange
     {
-        public int x, y;
-        public CellState state;
+        public int X, Y;
+        public CellState State;
 
         public CellChange(int x, int y, CellState state)
         {
-            this.x = x;
-            this.y = y;
-            this.state = state;
+            X = x;
+            Y = y;
+            State = state;
         }
     }
 }

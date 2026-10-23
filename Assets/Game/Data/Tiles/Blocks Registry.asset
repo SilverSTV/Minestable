@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c03b10a604ca45bbb8e825bb69a3cb12, type: 3}
-  m_Name: Tile Registry
+  m_Name: Blocks Registry
   m_EditorClassIdentifier: Assembly-CSharp::Game.Scripts.Editor.TileRegistry
   _entries:
   - Type: 3
@@ -19,3 +19,14 @@ MonoBehaviour:
     Tile: {fileID: 11400000, guid: 958761ff8fe612e46a9e6efedbcb40e4, type: 2}
   - Type: 5
     Tile: {fileID: 11400000, guid: 7ab065b287363f4408dbc6631df3ce49, type: 2}
+  - Type: 2
+    Tile: {fileID: 11400000, guid: 61050983f91d1cb4587a16446ce5c4c6, type: 2}
+  _damageEntries:
+  - Stage: 1
+    Tile: {fileID: 11400000, guid: 1db44ac88639e824194923a4c042a11b, type: 2}
+  - Stage: 2
+    Tile: {fileID: 11400000, guid: b2a51d78b62d46e4d970a67942ab1348, type: 2}
+  - Stage: 3
+    Tile: {fileID: 11400000, guid: 5e312c9c46cf91e48a42c01c935c897a, type: 2}
+  - Stage: 4
+    Tile: {fileID: 11400000, guid: fdb7f53ac81fabb48b4b145694c0bd75, type: 2}

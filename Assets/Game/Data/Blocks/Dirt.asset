@@ -10,22 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71dac210bb931564baad91ae85b0efab, type: 3}
-  m_Name: AirBlockConfig
+  m_Name: Dirt
   m_EditorClassIdentifier: Assembly-CSharp::Game.Scripts.Configs.BlockSettings
-  <BlockTypeId>k__BackingField: 1
-  <ConfigId>k__BackingField: 999
-  <SpriteReference>k__BackingField:
-    m_AssetGUID: 
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_SubObjectGUID: 
-    m_EditorAssetChanged: 0
-  <MaxDurability>k__BackingField: 0
+  <BlockTypeId>k__BackingField: 2
+  <ConfigId>k__BackingField: block_dirt
+  <Sprite>k__BackingField: {fileID: -7958769179885505039, guid: 48db84728cf1d1e408745e36b8dd8f98, type: 3}
+  <MaxDurability>k__BackingField: 5
   <StabilityDamage>k__BackingField: 0
-  <DropAmountMin>k__BackingField: 0
-  <DropAmountMax>k__BackingField: 0
   <SpawnHeightMin>k__BackingField: 0
   <SpawnHeightMax>k__BackingField: 0
-  <DropItems>k__BackingField: 
+  <DropResources>k__BackingField: []
   <IsSolid>k__BackingField: 0
   <IsAffectedByGravity>k__BackingField: 0

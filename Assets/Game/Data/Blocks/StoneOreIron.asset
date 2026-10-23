@@ -10,17 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71dac210bb931564baad91ae85b0efab, type: 3}
-  m_Name: IronOreBlockConfig
+  m_Name: StoneOreIron
   m_EditorClassIdentifier: Assembly-CSharp::Game.Scripts.Configs.BlockSettings
   <BlockTypeId>k__BackingField: 5
-  <ConfigId>k__BackingField: 2
-  <SpriteReference>k__BackingField:
-    m_AssetGUID: bd12a83c694d0364095b319fa1939d19
-    m_SubObjectName: stone_browniron_0
-    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-    m_SubObjectGUID: 
-    m_EditorAssetChanged: 1
+  <ConfigId>k__BackingField: block_ore_iron
+  <Sprite>k__BackingField: {fileID: 8504367182612751133, guid: bd12a83c694d0364095b319fa1939d19, type: 3}
   <MaxDurability>k__BackingField: 20
   <StabilityDamage>k__BackingField: 10
   <SpawnHeightMin>k__BackingField: 5

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Game.Scripts.Gameplay.PlayerResources;
+using Game.Scripts.Gameplay.Resources;
 using UnityEngine;
 using ResourceType = Game.Scripts.Gameplay.ResourceType;
 

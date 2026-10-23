@@ -1,16 +1,19 @@
 using System.Collections.Generic;
 using Game.Scripts.Configs;
 using Game.Scripts.Editor;
-using Game.Scripts.Gameplay;
+using Game.Scripts.Gameplay.Mine.Core;
+using Game.Scripts.Gameplay.Mine.State;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Game.Scripts.View
+namespace Game.Scripts.Gameplay.View
 {
     public class MineView : MonoBehaviour
     {
         [SerializeField] private Tilemap _tilemap;
+        [SerializeField] private Tilemap _damageTilemap;
         [SerializeField] private TileRegistry _tileRegistry;
+        
 
         public Tilemap Tilemap
         {
@@ -40,15 +43,16 @@ namespace Game.Scripts.View
                 return;
             }
 
-            var bounds = new BoundsInt(0, 0, 0, mineGrid.Width, mineGrid.Height, 1);
+            var bounds = new BoundsInt(0, -mineGrid.Height +1, 0, mineGrid.Width, mineGrid.Height, 1);
             var tiles = new TileBase[mineGrid.Width * mineGrid.Height];
             var i = 0;
 
-            for (var y = 0; y < mineGrid.Height; y++)
+            for (var worldY = bounds.yMin; worldY < bounds.yMax; worldY++)
             {
+                var y = WorldYToGridY(worldY);
+                
                 for (var x = 0; x < mineGrid.Width; x++)
                 {
-                    var position = new Vector2Int(x, y);
                     var cell = mineGrid.GetBlock(x, y);
 
                     if (cell.BlockType == BlockType.Air || cell.BlockType == BlockType.Unknown)
@@ -61,7 +65,7 @@ namespace Game.Scripts.View
                     if (tile == null)
                     {
                         Debug.LogWarning(
-                            $"MineView: block tile is not configured for block type {cell.BlockType} at {position}.",
+                            $"MineView: block tile is not configured for block type {cell.BlockType} at X:{x} & Y:{y}.",
                             this);
                         tiles[i++] = null;
                         continue;
@@ -74,18 +78,20 @@ namespace Game.Scripts.View
             _tilemap.SetTilesBlock(bounds, tiles);
         }
 
-        public void UpdateCell(int x, int y, CellState cell)
+        public void UpdateCell(int x, int gridY, CellState cell)
         {
             if (!TryResolveReferences())
             {
                 return;
             }
 
+            var y = WorldYToGridY(gridY);
             var pos = new Vector3Int(x, y, 0);
 
             if (cell.BlockType == BlockType.Air || cell.BlockType == BlockType.Unknown)
             {
                 _tilemap.SetTile(pos, null);
+                _damageTilemap.SetTile(pos,null);
                 return;
             }
 
@@ -93,20 +99,23 @@ namespace Game.Scripts.View
             _tilemap.SetTile(pos, tile);
         }
         
-        public void ApplyChanges(List<CellChange> changes)
+        public void ApplyChanges(List<MineCellVisualUpdate> changes)
         {
             foreach (var change in changes)
             {
-                var pos = new Vector3Int(change.x, change.y, 0);
+                var worldY = WorldYToGridY(change.Y);
+                var pos = new Vector3Int(change.X, worldY, 0);
 
-                if (change.state.BlockType == BlockType.Air)
+                if (change.CurrentBlockType == BlockType.Air)
                 {
                     _tilemap.SetTile(pos, null);
+                    _damageTilemap.SetTile(pos,null);
                 }
                 else
                 {
-                    var tile = _tileRegistry.Get(change.state.BlockType);
+                    var tile = _tileRegistry.Get(change.CurrentBlockType);
                     _tilemap.SetTile(pos, tile);
+                    ApplyDamageToTilemap(pos,change.DamageState);
                 }
             }
         }
@@ -131,6 +140,17 @@ namespace Game.Scripts.View
             }
 
             return true;
+        }
+        
+        private int WorldYToGridY(int worldY)
+        {
+            return -worldY;
+        }
+
+        private void ApplyDamageToTilemap(Vector3Int pos, BlockDamageStage blockDamageStage)
+        {
+            var tile = _tileRegistry.GetDamageTile(blockDamageStage);
+                _damageTilemap.SetTile(pos, tile);
         }
     }
 }

@@ -1,3 +1,4 @@
+using Game.Scripts.Gameplay.Mine.Core;
 using UnityEngine;
 
 namespace Game.Scripts.Gameplay

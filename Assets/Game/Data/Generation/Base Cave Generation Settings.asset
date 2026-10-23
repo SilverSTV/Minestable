@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29883f67157e4ad7915d421c4e8ab73c, type: 3}
+  m_Name: Base Cave Generation Settings
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Scripts.Configs.CaveGenerationSettings
+  _caveCount: 10
+  _radiusXMin: 3
+  _radiusXMax: 6
+  _radiusYMin: 3
+  _radiusYMax: 6
+  _yMin: 10
+  _yMax: 100

@@ -10,17 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71dac210bb931564baad91ae85b0efab, type: 3}
-  m_Name: CoalBlockConfig
+  m_Name: StoneCoal
   m_EditorClassIdentifier: Assembly-CSharp::Game.Scripts.Configs.BlockSettings
   <BlockTypeId>k__BackingField: 7
-  <ConfigId>k__BackingField: 1
-  <SpriteReference>k__BackingField:
-    m_AssetGUID: ff8042ee85587484d8f8bbc8ce34715e
-    m_SubObjectName: stone_coal_0
-    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-    m_SubObjectGUID: 
-    m_EditorAssetChanged: 1
+  <ConfigId>k__BackingField: block_type_coal
+  <Sprite>k__BackingField: {fileID: -6051725314337450559, guid: ff8042ee85587484d8f8bbc8ce34715e, type: 3}
   <MaxDurability>k__BackingField: 10
   <StabilityDamage>k__BackingField: 5
   <SpawnHeightMin>k__BackingField: 2

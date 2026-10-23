@@ -33,8 +33,9 @@ namespace Game.Scripts.Root.Input
             var state = _adapter.BuildState();
 
             Commands.Move = state.Move;
-            Commands.PointerClick = state.PrimaryActionPressed;
             Commands.PointerWorldPosition = state.PointerWorld;
+            if (state.PrimaryActionPressed)
+                Commands.PointerClick.Set();
             if (state.ToggleDebugModePressed)
                 Commands.ToggleModePressed.Set();
         }

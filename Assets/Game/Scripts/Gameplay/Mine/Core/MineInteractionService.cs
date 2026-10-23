@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using Game.Scripts.Configs;
+using Game.Scripts.Gameplay.Mine.Core;
+using Game.Scripts.Gameplay.Mine.State;
 using Game.Scripts.Gameplay.PlayerResources;
+using NUnit.Framework;
 using UnityEngine;
 
 namespace Game.Scripts.Gameplay
@@ -11,7 +14,9 @@ namespace Game.Scripts.Gameplay
         private readonly BlockDatabase _blocksSettings;
         private readonly BlockType _emptyBlockType;
         private readonly List<CellChange> _changes = new();
+        private readonly List<MineCellVisualUpdate> _visualUpdates = new();
         private readonly IResourceService _resourceService;
+        private readonly MineVisualUpdateFactory _visualUpdateFactory = new();
 
         public MineInteractionService(MineGrid world, BlockDatabase blocksSettings, BlockType emptyBlockType,
             IResourceService resourceService)
@@ -23,6 +28,7 @@ namespace Game.Scripts.Gameplay
         }
 
         public List<CellChange> Changes => _changes;
+        public List<MineCellVisualUpdate> VisualUpdates => _visualUpdates;
 
         public void TryDamageBlock(int x, int y, int damage)
         {
@@ -32,7 +38,8 @@ namespace Game.Scripts.Gameplay
             }
 
             var block = _world.GetBlock(x, y);
-            if (block.BlockType == BlockType.Air || block.BlockType == BlockType.Unknown)
+            var damagedBlockType = block.BlockType;
+            if (damagedBlockType == BlockType.Air || damagedBlockType == BlockType.Unknown)
             {
                 return;
             }
@@ -40,17 +47,21 @@ namespace Game.Scripts.Gameplay
             block.Durability -= damage;
             if (block.Durability <= 0)
             {
-                var destroyedCell = DestroyBlock(x, y, block.BlockType);
+                var destroyedCell = DestroyBlock(x, y, damagedBlockType);
                 return;
             }
 
             _world.SetBlock(x, y, block);
+            var blockSettings = _blocksSettings.GetSettings(damagedBlockType);
+            var blockDurabilityPercent = block.Durability / (float) blockSettings.MaxDurability;
+            VisualUpdates.Add(_visualUpdateFactory.CreateHit(x, y, block.BlockType, blockDurabilityPercent));
             Changes.Add(new CellChange(x, y, block));
         }
 
         public void ClearChanges()
         {
             _changes.Clear();
+            _visualUpdates.Clear();
         }
 
         private void CreateBlock(int x, int y, BlockType blockType)
@@ -81,6 +92,7 @@ namespace Game.Scripts.Gameplay
             }
 
             _world.SetBlock(x, y, emptyBlock);
+            VisualUpdates.Add(_visualUpdateFactory.CreateDestroy(x,y,destroyedBlockType,_emptyBlockType));
             Changes.Add(new CellChange(x, y, emptyBlock));
             return emptyBlock;
         }

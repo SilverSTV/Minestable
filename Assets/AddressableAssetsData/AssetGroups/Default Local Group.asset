@@ -14,22 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
   m_GroupName: Default Local Group
   m_GUID: 6ac17c0be296a2d4e81d4383d23ffa4d
-  m_SerializeEntries:
-  - m_GUID: 1ee760962125b294fb5d8e726b6d2d93
-    m_Address: Assets/Game/Art/tile_stone.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: bd12a83c694d0364095b319fa1939d19
-    m_Address: Assets/Game/Art/tile_ore_stone_browniron.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ff8042ee85587484d8f8bbc8ce34715e
-    m_Address: Assets/Game/Art/tile_ore_stone_coal.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: e95f6d10edf88d144a50d677a0bfcb9d, type: 2}
   m_SchemaSet:

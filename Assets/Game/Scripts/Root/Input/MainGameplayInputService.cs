@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Game.Scripts.Gameplay.Characters.Player;
-using Game.Scripts.Root.UpdateSystem;
+﻿using Game.Scripts.Gameplay.Characters.Player;
 using UnityEngine;
 
 namespace Game.Scripts.Root.Input
@@ -31,10 +29,13 @@ namespace Game.Scripts.Root.Input
             var state = _inputAdapter.BuildState();
 
             Commands.Move = state.Move;
+            Commands.PointerWorldPosition = state.PointerWorld;
             if (state.JumpPressed)
                 Commands.JumpPressed.Set();
             if (state.ToggleDebugModePressed)
                 Commands.ToggleModePressed.Set();
+            if(state.PrimaryActionPressed)
+                Commands.PointerClick.Set();
         }
     }
 }
